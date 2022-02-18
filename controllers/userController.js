@@ -1,9 +1,12 @@
+const User = require('../models/user')
+const mailSendler = require('../helpers/mailSeandler')
+
 class UserController {
     async login(req, res) {
-        try{
+        try {
             const { email, pass } = req.body
-            console.log(email, pass);
-            res.json('login working')
+                
+            res.json({ message: 'Доступ разрешен' })
         } catch (err) {
             console.log(err)
             res.status(500).json(err)
@@ -11,10 +14,19 @@ class UserController {
     }
 
     async registr(req, res) {
-        try{
-           const { email, pass, name } = req.body
-           console.log(email, pass, name);
-           res.json('registr working')
+        try {
+            const { email, pass, login } = req.body
+            const user = User.create({
+                login: login,
+                email: email,
+                pass: pass
+            })
+
+                (await user).save()
+
+            await mailSendler(email, login)
+
+            res.json({ message: 'Успешная регистрация' })
         } catch (err) {
             console.log(err)
             res.status(500).json(err)
@@ -22,10 +34,10 @@ class UserController {
     }
 
     async logout(req, res) {
-        try{
-            const { email, pass } = req.body
-            console.log(email, pass);
-            res.json('registr working')
+        try {
+            req.session.destroy(() => {
+                res.json('Logout')
+            })
         } catch (err) {
             console.log(err)
             res.status(500).json(err)
