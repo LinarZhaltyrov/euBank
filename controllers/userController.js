@@ -5,8 +5,19 @@ class UserController {
     async login(req, res) {
         try {
             const { email, pass } = req.body
-                
-            res.json({ message: 'Доступ разрешен' })
+            const candidate = await User.findOne({ email: email, pass: pass })
+
+            if (candidate === null) {
+                res.json({ message: 'Неверный Email или пароль' })
+            } else {
+                req.session.user = candidate
+                req.session.save((err) => {
+                    if (err) {
+                        throw err
+                    }
+                    res.json({ message: 'Доступ разрешен' })
+                })
+            }
         } catch (err) {
             console.log(err)
             res.status(500).json(err)
@@ -16,7 +27,7 @@ class UserController {
     async registr(req, res) {
         try {
             const { email, pass, login } = req.body
-            const user = User.create({
+            const user = await User.create({
                 login: login,
                 email: email,
                 pass: pass
@@ -36,7 +47,7 @@ class UserController {
     async logout(req, res) {
         try {
             req.session.destroy(() => {
-                res.json('Logout')
+                res.json({ message: 'Logout' })
             })
         } catch (err) {
             console.log(err)

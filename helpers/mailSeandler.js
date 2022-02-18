@@ -25,3 +25,5 @@ const mailSendler = async (email, login) => {
             `
     })
 }
+
+module.exports = mailSendler
