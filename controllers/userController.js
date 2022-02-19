@@ -32,7 +32,7 @@ class UserController {
     async registr(req, res) {
         try {
             const { email, pass, login } = req.body
-            
+
             const user = await User.create({
                 login: login,
                 email: email,

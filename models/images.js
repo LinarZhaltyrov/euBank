@@ -18,6 +18,6 @@ const Images = db.define('Images', {
         freezeTableName: true,
     })
 
-    Images.hasOne(User)
+Images.hasOne(User)
 
 module.exports = Images

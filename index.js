@@ -34,7 +34,7 @@ const serverStart = async () => {
             .then(() => console.log('база данных подключена'))
             .catch((err) => console.log('ошибка при подключении к базе данных'))
 
-            await db.sync()
+        await db.sync()
         app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`))
     } catch (err) {
         console.log(err);

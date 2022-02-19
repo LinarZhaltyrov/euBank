@@ -10,7 +10,7 @@ class imageController {
                 })
                 return image
             })
-            res.json({message: 'изображения получены'})
+            res.json({ message: 'изображения получены' })
         } catch (err) {
             console.log(err)
             res.status(500).json(err)
