@@ -7,7 +7,7 @@ const mailSendler = async (email, login) => {
         secure: false,
         auth: {
             user: 'example@gmail.com',
-            pass: 'pass'
+            pass: 'password'
         }
     })
 

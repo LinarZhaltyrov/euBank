@@ -1,22 +1,15 @@
+const { request } = require('express')
 const { Sequelize, DataTypes } = require('sequelize')
 const db = require('../database/db')
+const User = require('./user')
 
-const User = db.define('User', {
-    userId: {
+const Images = db.define('Images', {
+    imageId: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    login: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    pass: {
+    image: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -25,5 +18,6 @@ const User = db.define('User', {
         freezeTableName: true,
     })
 
+    Images.hasOne(User)
 
-module.exports = User
+module.exports = Images

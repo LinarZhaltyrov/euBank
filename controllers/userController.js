@@ -5,9 +5,14 @@ class UserController {
     async login(req, res) {
         try {
             const { email, pass } = req.body
-            const candidate = await User.findOne({ email: email, pass: pass })
+            const candidate = await User.findOne({
+                where: {
+                    email: email,
+                    pass: pass
+                }
+            })
 
-            if (candidate === null) {
+            if (candidate.pass !== pass && candidate.email !== email) {
                 res.json({ message: 'Неверный Email или пароль' })
             } else {
                 req.session.user = candidate
@@ -27,13 +32,12 @@ class UserController {
     async registr(req, res) {
         try {
             const { email, pass, login } = req.body
+            
             const user = await User.create({
                 login: login,
                 email: email,
                 pass: pass
             })
-
-                (await user).save()
 
             await mailSendler(email, login)
 
